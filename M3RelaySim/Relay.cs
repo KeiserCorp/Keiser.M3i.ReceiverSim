@@ -16,6 +16,8 @@ namespace M3RelaySim
         private Log _log;
         private Random random = new Random();
 
+        public static int riderCounter = 0;
+
         public bool running = false;
         public string ipAddress = "";
         public UInt16 ipPort;
@@ -35,7 +37,7 @@ namespace M3RelaySim
             _KeepWorking = running = true;
             for (int x = 0; x < numRiders; x++)
             {
-                riders.Add(new Rider(random));
+                riders.Add(new Rider(random, x));
             }
             _Thread.Start();
         }
@@ -148,7 +150,7 @@ namespace M3RelaySim
         private int age, maxHR, gear, refresh = 2;
         private double cal;
 
-        public Rider(Random parentRandom)
+        public Rider(Random parentRandom, int x)
         {
             random = parentRandom;
             age = random.Next(20, 55);
@@ -160,7 +162,7 @@ namespace M3RelaySim
             cal = random.Next(0, 50000);
             kcal = calToKcal();
             clock = Convert.ToUInt16(random.Next(0, 300));
-            generateUUID();
+            generateUUID(x);
         }
 
         private UInt16 getPower()
@@ -168,12 +170,13 @@ namespace M3RelaySim
             return Convert.ToUInt16((gear / 64.0) * rpm);
         }
 
-        private void generateUUID()
+        private void generateUUID(int y)
         {
             for (int x = 0; x < 6; x++)
             {
-                uuid[x] = Convert.ToByte(random.Next(0, 255));
+                uuid[x] = Convert.ToByte(y + 1);
             }
+             Relay.riderCounter++;
         }
 
         private string getUuidString()
