@@ -14,7 +14,7 @@
     <IsWebBootstrapper>true</IsWebBootstrapper>
     <TargetFrameworkProfile>
     </TargetFrameworkProfile>
-    <PublishUrl>D:\Development\MSeriesProject\APX4\Publish\sim\</PublishUrl>
+    <PublishUrl>D:\Development\Keiser.MPM.M3RelaySim\Publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Web</InstallFrom>
     <UpdateEnabled>true</UpdateEnabled>
@@ -29,7 +29,7 @@
     <PublisherName>Keiser Corp</PublisherName>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.htm</WebPage>
-    <ApplicationRevision>1</ApplicationRevision>
+    <ApplicationRevision>2</ApplicationRevision>
     <ApplicationVersion>1.1.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>

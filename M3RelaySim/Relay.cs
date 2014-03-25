@@ -176,7 +176,7 @@ namespace M3RelaySim
             {
                 uuid[x] = Convert.ToByte(y + 1);
             }
-             Relay.riderCounter++;
+            Relay.riderCounter++;
         }
 
         private string getUuidString()
@@ -245,13 +245,13 @@ namespace M3RelaySim
             if (hrRange <= 60)
             {
                 if (effort >= 75) return 1;
-                if (effort >= 20) return 0;
+                //if (effort >= 20) return 0;
                 return -1;
             }
             if (hrRange <= 80)
             {
-                if (effort >= 60) return 0;
-                if (effort >= 20) return 1;
+                //if (effort >= 90) return 0;
+                if (effort >= 50) return 1;
                 return -1;
             }
             if (hrRange <= 90)
