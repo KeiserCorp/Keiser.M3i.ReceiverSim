@@ -15,13 +15,14 @@ namespace M3RelaySim
         private volatile Boolean _KeepWorking;
         private Log _log;
         private Random random = new Random();
+        private int counter = 0;
 
         public static int riderCounter = 0;
 
         public bool running = false;
         public string ipAddress = "";
         public UInt16 ipPort;
-        public bool uuidLong, rpmLong, hrLong, kcalSend, clockSend, rssiSend;
+        public bool uuidLong, rpmLong, hrLong, kcalSend, clockSend, rssiSend, randomId, realWorld;
 
         public List<Rider> riders = new List<Rider>();
 
@@ -37,7 +38,7 @@ namespace M3RelaySim
             _KeepWorking = running = true;
             for (int x = 0; x < numRiders; x++)
             {
-                riders.Add(new Rider(random, x));
+                riders.Add(new Rider(random, x, randomId, realWorld));
             }
             _Thread.Start();
         }
@@ -49,7 +50,6 @@ namespace M3RelaySim
 
         private void worker()
         {
-            int counter = 0;
             Stopwatch runTime;
             Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
             IPEndPoint ipEndPoint = new IPEndPoint(IPAddress.Parse(ipAddress), ipPort);
@@ -57,25 +57,36 @@ namespace M3RelaySim
             while (_KeepWorking)
             {
                 runTime = Stopwatch.StartNew();
-                _log.add("TX Block " + counter++, true);
                 foreach (Rider rider in riders)
                 {
                     rider.cycle();
-                    _log.add(rider.getStats());
                 }
                 broadcast(socket, ipEndPoint);
                 runTime.Stop();
-                Thread.Sleep(Convert.ToUInt16(2000 - runTime.ElapsedMilliseconds));
+                int sleepTime = (realWorld) ? 500 : 2000;
+                Thread.Sleep(Convert.ToUInt16(sleepTime - runTime.ElapsedMilliseconds));
             }
             socket.Close();
         }
 
         private void broadcast(Socket socket, IPEndPoint ipEndPoint)
         {
+            bool emptyLog = true;
             List<byte> data = new List<byte>();
             data.Add(getConfig());
             foreach (Rider rider in riders)
-                addRider(rider, data);
+            {
+                if (!realWorld || (rider.cycles == 0 && random.Next(0, 20) != 0))
+                {
+                    if (emptyLog)
+                    {
+                        _log.add("TX Block " + counter++, true);
+                        emptyLog = false;
+                    }
+                    _log.add(rider.getStats());
+                    addRider(rider, data);
+                }
+            }
             socket.SendTo(data.ToArray(), ipEndPoint);
         }
 
@@ -93,7 +104,6 @@ namespace M3RelaySim
 
         private void addRider(Rider rider, List<byte> data)
         {
-            // Add first 3 bytes
             data.Add(rider.uuid[5]);
             data.Add(rider.uuid[4]);
             data.Add(rider.uuid[3]);
@@ -142,6 +152,7 @@ namespace M3RelaySim
 
     class Rider
     {
+        public UInt16 cycles;
         public UInt16 rpm, hr, power, kcal, clock;
         public Int16 rssi = -50;
         public byte[] uuid = new byte[6];
@@ -149,9 +160,11 @@ namespace M3RelaySim
         private Random random;
         private int age, maxHR, gear, refresh = 2;
         private double cal;
+        private bool realWorld;
 
-        public Rider(Random parentRandom, int x)
+        public Rider(Random parentRandom, int x, bool randomId, bool realWorld)
         {
+            this.realWorld = realWorld;
             random = parentRandom;
             age = random.Next(20, 55);
             maxHR = (2200 - (age * 10));
@@ -162,7 +175,8 @@ namespace M3RelaySim
             cal = random.Next(0, 50000);
             kcal = calToKcal();
             clock = Convert.ToUInt16(random.Next(0, 300));
-            generateUUID(x);
+            cycles = Convert.ToUInt16(random.Next(0, 3));
+            generateUUID(x, randomId);
         }
 
         private UInt16 getPower()
@@ -170,11 +184,21 @@ namespace M3RelaySim
             return Convert.ToUInt16((gear / 64.0) * rpm);
         }
 
-        private void generateUUID(int y)
+        private void generateUUID(int y, bool randomId)
         {
-            for (int x = 0; x < 6; x++)
+            if (randomId)
             {
-                uuid[x] = Convert.ToByte(y + 1);
+                for (int x = 0; x < 6; x++)
+                {
+                    uuid[x] = Convert.ToByte(random.Next(0, 255));
+                }
+            }
+            else
+            {
+                for (int x = 0; x < 6; x++)
+                {
+                    uuid[x] = Convert.ToByte(y + 1);
+                }
             }
             Relay.riderCounter++;
         }
@@ -194,6 +218,12 @@ namespace M3RelaySim
 
         public void cycle()
         {
+            if (realWorld)
+            {
+                if (++cycles < 4)
+                    return;
+                cycles = 0;
+            }
             int effort = effortPredictor();
             if (effort == 1)
             {

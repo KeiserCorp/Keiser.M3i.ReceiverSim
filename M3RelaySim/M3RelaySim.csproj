@@ -62,10 +62,10 @@
     <ApplicationIcon>M3RelaySim.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>3F8DAE1EC13F8EFC8924EDCDA7D004C85488DF5C</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>F4F80D01C0E791B7A3811C6D5796C6CA6E351451</ManifestCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestKeyFile>M3RelaySim_TemporaryKey.pfx</ManifestKeyFile>
+    <ManifestKeyFile>M3RelaySim_1_TemporaryKey.pfx</ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
     <GenerateManifests>true</GenerateManifests>
@@ -76,6 +76,8 @@
   <PropertyGroup>
     <StartupObject>M3RelaySim.Program</StartupObject>
   </PropertyGroup>
+  <PropertyGroup />
+  <PropertyGroup />
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -112,6 +114,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <None Include="M3RelaySim_1_TemporaryKey.pfx" />
     <None Include="M3RelaySim_TemporaryKey.pfx" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

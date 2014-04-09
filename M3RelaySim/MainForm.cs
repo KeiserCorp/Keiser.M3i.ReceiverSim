@@ -157,6 +157,10 @@ namespace M3RelaySim
             relay.kcalSend = this.kcalSendCheckbox.Checked;
             relay.clockSend = this.clockSendCheckbox.Checked;
             relay.rssiSend = this.rssiSendCheckbox.Checked;
+
+            relay.randomId = this.randomIdCheckbox.Checked;
+            relay.realWorld = this.realWorldCheckBox.Checked;
+
             relay.ipAddress = this.ipAddressBox.Text;
             relay.ipPort = Convert.ToUInt16(this.portBox.Text);
         }
@@ -254,6 +258,7 @@ namespace M3RelaySim
                 _outputBox.Items.Add(message);
                 _outputBox.SelectedIndex = _outputBox.Items.Count - 1;
                 _log += message + "\n";
+                checkLog();
             }
         }
 
@@ -261,6 +266,17 @@ namespace M3RelaySim
         {
             _outputBox.Items.Clear();
             _log = "";
+        }
+
+        public void checkLog()
+        {
+            int logLength = 1000000;
+            if (_log.Length > logLength * 1.5)
+            {
+                char[] chars = new char[logLength];
+                _log.CopyTo(_log.Length - logLength, chars, 0, logLength);
+                _log = chars.ToString();
+            }
         }
 
     }

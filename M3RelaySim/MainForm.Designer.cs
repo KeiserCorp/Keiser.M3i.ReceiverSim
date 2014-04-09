@@ -52,6 +52,8 @@
             this.kcalSendCheckbox = new System.Windows.Forms.CheckBox();
             this.clockSendCheckbox = new System.Windows.Forms.CheckBox();
             this.rssiSendCheckbox = new System.Windows.Forms.CheckBox();
+            this.randomIdCheckbox = new System.Windows.Forms.CheckBox();
+            this.realWorldCheckBox = new System.Windows.Forms.CheckBox();
             this.outputBox = new System.Windows.Forms.ListBox();
             this.statusBar.SuspendLayout();
             this.controlsContainerPanel.SuspendLayout();
@@ -68,7 +70,7 @@
             this.toolStripStatusLabel1,
             this.statusBarClearButton,
             this.statusBarSaveButton});
-            this.statusBar.Location = new System.Drawing.Point(0, 304);
+            this.statusBar.Location = new System.Drawing.Point(0, 356);
             this.statusBar.Name = "statusBar";
             this.statusBar.Size = new System.Drawing.Size(805, 22);
             this.statusBar.SizingGrip = false;
@@ -144,12 +146,12 @@
             this.controlsContainerPanel.Controls.Add(this.transAttPanel);
             this.controlsContainerPanel.Location = new System.Drawing.Point(0, 0);
             this.controlsContainerPanel.Name = "controlsContainerPanel";
-            this.controlsContainerPanel.Size = new System.Drawing.Size(124, 301);
+            this.controlsContainerPanel.Size = new System.Drawing.Size(124, 354);
             this.controlsContainerPanel.TabIndex = 1;
             // 
             // threadToggleButton
             // 
-            this.threadToggleButton.Location = new System.Drawing.Point(7, 275);
+            this.threadToggleButton.Location = new System.Drawing.Point(3, 325);
             this.threadToggleButton.Name = "threadToggleButton";
             this.threadToggleButton.Size = new System.Drawing.Size(75, 23);
             this.threadToggleButton.TabIndex = 3;
@@ -184,11 +186,6 @@
             // numOfBikesNumeric
             // 
             this.numOfBikesNumeric.Location = new System.Drawing.Point(6, 20);
-            this.numOfBikesNumeric.Maximum = new decimal(new int[] {
-            50,
-            0,
-            0,
-            0});
             this.numOfBikesNumeric.Minimum = new decimal(new int[] {
             1,
             0,
@@ -250,9 +247,11 @@
             this.transAttPanel.Controls.Add(this.kcalSendCheckbox);
             this.transAttPanel.Controls.Add(this.clockSendCheckbox);
             this.transAttPanel.Controls.Add(this.rssiSendCheckbox);
+            this.transAttPanel.Controls.Add(this.randomIdCheckbox);
+            this.transAttPanel.Controls.Add(this.realWorldCheckBox);
             this.transAttPanel.Location = new System.Drawing.Point(7, 133);
             this.transAttPanel.Name = "transAttPanel";
-            this.transAttPanel.Size = new System.Drawing.Size(110, 138);
+            this.transAttPanel.Size = new System.Drawing.Size(110, 186);
             this.transAttPanel.TabIndex = 2;
             // 
             // idLongCheckbox
@@ -327,6 +326,30 @@
             this.rssiSendCheckbox.Text = "RSSI Send";
             this.rssiSendCheckbox.UseVisualStyleBackColor = true;
             // 
+            // randomIdCheckbox
+            // 
+            this.randomIdCheckbox.AutoSize = true;
+            this.randomIdCheckbox.Checked = true;
+            this.randomIdCheckbox.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.randomIdCheckbox.Location = new System.Drawing.Point(3, 141);
+            this.randomIdCheckbox.Name = "randomIdCheckbox";
+            this.randomIdCheckbox.Size = new System.Drawing.Size(85, 17);
+            this.randomIdCheckbox.TabIndex = 6;
+            this.randomIdCheckbox.Text = "Random IDs";
+            this.randomIdCheckbox.UseVisualStyleBackColor = true;
+            // 
+            // realWorldCheckBox
+            // 
+            this.realWorldCheckBox.AutoSize = true;
+            this.realWorldCheckBox.Checked = true;
+            this.realWorldCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.realWorldCheckBox.Location = new System.Drawing.Point(3, 164);
+            this.realWorldCheckBox.Name = "realWorldCheckBox";
+            this.realWorldCheckBox.Size = new System.Drawing.Size(79, 17);
+            this.realWorldCheckBox.TabIndex = 7;
+            this.realWorldCheckBox.Text = "Real World";
+            this.realWorldCheckBox.UseVisualStyleBackColor = true;
+            // 
             // outputBox
             // 
             this.outputBox.BackColor = System.Drawing.SystemColors.Menu;
@@ -337,7 +360,7 @@
             this.outputBox.Location = new System.Drawing.Point(123, 0);
             this.outputBox.Name = "outputBox";
             this.outputBox.ScrollAlwaysVisible = true;
-            this.outputBox.Size = new System.Drawing.Size(682, 301);
+            this.outputBox.Size = new System.Drawing.Size(682, 356);
             this.outputBox.TabIndex = 3;
             // 
             // MainForm
@@ -345,7 +368,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Window;
-            this.ClientSize = new System.Drawing.Size(805, 326);
+            this.ClientSize = new System.Drawing.Size(805, 378);
             this.Controls.Add(this.outputBox);
             this.Controls.Add(this.controlsContainerPanel);
             this.Controls.Add(this.statusBar);
@@ -392,6 +415,8 @@
         private System.Windows.Forms.ToolStripStatusLabel statusBarSaveButton;
         private System.Windows.Forms.ToolStripStatusLabel statusBarClearButton;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
+        private System.Windows.Forms.CheckBox randomIdCheckbox;
+        private System.Windows.Forms.CheckBox realWorldCheckBox;
 
     }
 }
