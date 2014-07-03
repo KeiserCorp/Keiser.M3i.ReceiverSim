@@ -7,8 +7,8 @@
     <ProjectGuid>{2A024E6C-7376-49C4-8811-F2D8CC78D22A}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>M3RelaySim</RootNamespace>
-    <AssemblyName>M3RelaySim</AssemblyName>
+    <RootNamespace>Keiser.M3i.RecieverSimulator</RootNamespace>
+    <AssemblyName>M3i Multi-Bike Receiver Simulator</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <IsWebBootstrapper>true</IsWebBootstrapper>
@@ -25,12 +25,13 @@
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
     <InstallUrl>http://manuals.keiser.com/downloads/m3relay/sim/</InstallUrl>
-    <ProductName>M3 Relay Simulator</ProductName>
+    <ProductName>M3i Mutli-Bike Receiver Simulator</ProductName>
     <PublisherName>Keiser Corp</PublisherName>
-    <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
+    <SuiteName>M3i Developer Tools</SuiteName>
     <WebPage>publish.htm</WebPage>
+    <OpenBrowserOnPublish>false</OpenBrowserOnPublish>
     <ApplicationRevision>2</ApplicationRevision>
-    <ApplicationVersion>1.1.0.%2a</ApplicationVersion>
+    <ApplicationVersion>1.1.0.2</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -71,10 +72,10 @@
     <GenerateManifests>true</GenerateManifests>
   </PropertyGroup>
   <PropertyGroup>
-    <SignManifests>true</SignManifests>
+    <SignManifests>false</SignManifests>
   </PropertyGroup>
   <PropertyGroup>
-    <StartupObject>M3RelaySim.Program</StartupObject>
+    <StartupObject>Keiser.M3i.ReceiverSimulator.Program</StartupObject>
   </PropertyGroup>
   <PropertyGroup />
   <PropertyGroup />
@@ -114,8 +115,6 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <None Include="M3RelaySim_1_TemporaryKey.pfx" />
-    <None Include="M3RelaySim_TemporaryKey.pfx" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

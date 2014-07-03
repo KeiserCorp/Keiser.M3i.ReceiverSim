@@ -15,7 +15,7 @@ using System.Net.Sockets;
 using System.IO;
 using System.Diagnostics;
 
-namespace M3RelaySim
+namespace Keiser.M3i.ReceiverSimulator
 {
     public partial class MainForm : Form
     {

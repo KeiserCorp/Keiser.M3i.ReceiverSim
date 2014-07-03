@@ -7,7 +7,7 @@ using System.Diagnostics;
 using System.Net;
 using System.Net.Sockets;
 
-namespace M3RelaySim
+namespace Keiser.M3i.ReceiverSimulator
 {
     class Relay
     {
@@ -22,7 +22,7 @@ namespace M3RelaySim
         public bool running = false;
         public string ipAddress = "";
         public UInt16 ipPort;
-        public bool uuidLong, rpmLong, hrLong, kcalSend, clockSend, rssiSend, randomId, realWorld;
+        public bool uuidSend, versionSend, intervalSend, rssiSend, imperialUnits, randomId, realWorld;
 
         public List<Rider> riders = new List<Rider>();
 
@@ -87,50 +87,54 @@ namespace M3RelaySim
                     addRider(rider, data);
                 }
             }
-            socket.SendTo(data.ToArray(), ipEndPoint);
+            if (data.Count > 1)
+                socket.SendTo(data.ToArray(), ipEndPoint);
         }
 
         private byte getConfig()
         {
             byte configFlags = 0;
-            if (uuidLong) configFlags = Convert.ToByte(configFlags | 1);
-            if (rpmLong) configFlags = Convert.ToByte(configFlags | 2);
-            if (hrLong) configFlags = Convert.ToByte(configFlags | 4);
-            if (kcalSend) configFlags = Convert.ToByte(configFlags | 8);
-            if (clockSend) configFlags = Convert.ToByte(configFlags | 16);
-            if (rssiSend) configFlags = Convert.ToByte(configFlags | 32);
+            if (uuidSend) configFlags = Convert.ToByte(configFlags | 1);
+            if (versionSend) configFlags = Convert.ToByte(configFlags | 2);
+            if (intervalSend) configFlags = Convert.ToByte(configFlags | 4);
+            if (rssiSend) configFlags = Convert.ToByte(configFlags | 8);
+            if (imperialUnits) configFlags = Convert.ToByte(configFlags | 128);
             return configFlags;
         }
 
         private void addRider(Rider rider, List<byte> data)
         {
-            data.Add(rider.uuid[5]);
-            data.Add(rider.uuid[4]);
-            data.Add(rider.uuid[3]);
-            if (uuidLong)
+            if (!intervalSend && rider.interval != 0)
+                return;
+
+            add_1_byte(rider.id, data);
+
+            if (uuidSend)
             {
+                data.Add(rider.uuid[5]);
+                data.Add(rider.uuid[4]);
+                data.Add(rider.uuid[3]);
                 data.Add(rider.uuid[2]);
                 data.Add(rider.uuid[1]);
                 data.Add(rider.uuid[0]);
             }
 
-            if (rpmLong)
-                add_2_byte(rider.rpm, data);
-            else
-                add_1_byte(Convert.ToUInt16(rider.rpm / 10.0), data);
+            if (versionSend)
+            {
+                add_1_byte(rider.versionMajor, data);
+                add_1_byte(rider.versionMinor, data);
+            }
 
-            if (hrLong)
-                add_2_byte(rider.hr, data);
-            else
-                add_1_byte(Convert.ToUInt16(rider.hr / 10.0), data);
-
+            add_1_byte(Convert.ToUInt16(rider.rpm / 10.0), data);
+            add_1_byte(Convert.ToUInt16(rider.hr / 10.0), data);
             add_2_byte(rider.power, data);
 
-            if (kcalSend)
-                add_2_byte(rider.kcal, data);
-
-            if (clockSend)
-                add_2_byte(rider.clock, data);
+            if (intervalSend)
+            {
+                    add_2_byte(rider.kcal, data);
+                    add_2_byte(rider.clock, data);
+                    add_2_byte(rider.trip, data);
+            }
 
             if (rssiSend)
                 data.Add(Convert.ToByte(rider.rssi & 0xFF));
@@ -153,13 +157,47 @@ namespace M3RelaySim
     class Rider
     {
         public UInt16 cycles;
-        public UInt16 rpm, hr, power, kcal, clock;
+        public UInt16 id, versionMajor, versionMinor, rpm, hr, power, interval, rkcal, rclock, rtrip;
         public Int16 rssi = -50;
         public byte[] uuid = new byte[6];
 
+        public UInt16 kcal
+        {
+            get
+            {
+                if (interval != 0 || inInterval)
+                    return intKcal;
+                return rkcal;
+            }
+        }
+
+        public UInt16 clock
+        {
+            get
+            {
+                if (interval != 0 || inInterval)
+                    return intClock;
+                return rclock;
+            }
+        }
+
+        public UInt16 trip
+        {
+            get
+            {
+                if (interval != 0 || inInterval)
+                    return intTrip;
+                return rtrip;
+            }
+        }
+
         private Random random;
+        private double rtripAct, intTripAct;
+        private int intervalCounter;
+        private bool inInterval = false;
+        private UInt16 intKcal, intClock, intTrip;
         private int age, maxHR, gear, refresh = 2;
-        private double cal;
+        private double rcal, intCal;
         private bool realWorld;
 
         public Rider(Random parentRandom, int x, bool randomId, bool realWorld)
@@ -168,13 +206,21 @@ namespace M3RelaySim
             random = parentRandom;
             age = random.Next(20, 55);
             maxHR = (2200 - (age * 10));
+            id = Convert.ToUInt16(x + 1);
+            versionMajor = 0x06;
+            versionMinor = 0x13;
             hr = Convert.ToUInt16(random.Next(Convert.ToUInt16(maxHR * 0.4), Convert.ToUInt16(maxHR * 0.9)));
             rpm = Convert.ToUInt16(1100 * hr / maxHR);
             gear = random.Next(1, 24);
             power = getPower();
-            cal = random.Next(0, 50000);
-            kcal = calToKcal();
-            clock = Convert.ToUInt16(random.Next(0, 300));
+            rcal = random.Next(0, 50000);
+            interval = 0;
+            intervalCounter = random.Next(1, 10);
+            inInterval = false;
+            rkcal = calToKcal(rcal);
+            rclock = Convert.ToUInt16(random.Next(0, 300));
+            rtripAct = random.Next(0, 300);
+            rtrip = Convert.ToUInt16(rtripAct);
             cycles = Convert.ToUInt16(random.Next(0, 3));
             generateUUID(x, randomId);
         }
@@ -242,9 +288,44 @@ namespace M3RelaySim
                 hr -= Convert.ToUInt16(random.Next(10, 30));
             }
             power = getPower();
-            cal += (power / 4.187) * 4 * refresh;
-            kcal = Convert.ToUInt16(cal / 1000);
-            clock += Convert.ToUInt16(refresh);
+            if(inInterval)
+            {
+                intCal += (power / 4.187) * 4 * refresh;
+                intKcal = Convert.ToUInt16(intCal / 1000);
+                intClock += Convert.ToUInt16(refresh);
+                intTripAct +=getPower() / 1000.0;
+                intTrip =  Convert.ToUInt16(intTripAct);
+            }
+            else
+            {
+                rcal += (power / 4.187) * 4 * refresh;
+                rkcal = Convert.ToUInt16(rcal / 1000);
+                rclock += Convert.ToUInt16(refresh);
+                rtripAct += getPower() / 1000.0;
+                rtrip = Convert.ToUInt16(rtripAct);
+            }
+            if (random.Next(0, 20) == 0)
+            {
+                if (inInterval)
+                {
+                    rcal += intCal;
+                    rkcal += intKcal;
+                    rclock += intClock;
+                    rtrip += intTrip;
+                    inInterval = false;
+                    interval = Convert.ToUInt16(intervalCounter++);
+                }
+                else
+                {
+                    intCal = 0;
+                    intKcal = 0;
+                    intClock = 0;
+                    intTrip = 0;
+                    inInterval = true;
+                }
+            }
+            else
+                interval = 0;
             if (random.Next(0, 10) > 5)
             {
                 if (rssi < -19)
@@ -257,7 +338,7 @@ namespace M3RelaySim
             }
         }
 
-        private UInt16 calToKcal()
+        private UInt16 calToKcal(double cal)
         {
             return Convert.ToUInt16(cal / 1000);
         }
@@ -295,7 +376,8 @@ namespace M3RelaySim
 
         public string getStats()
         {
-            return string.Format("RPM: {0,5:0.0} HR: {1,5:0.0} POWER: {2,4:} KCAL: {3,4:} CLOCK: {4,5:} UUID: {5} RSSI: {6,3}dBm", rpm / 10.0, hr / 10.0, power, kcal, clock, getUuidString(), rssi);
+            //return string.Format("ID: {0,3} RPM: {1,5:0.0} HR: {2,5:0.0} POWER: {3,4:} INT: {4:2} KCAL: {5,4:} CLOCK: {6,5:} TRIP: {7,4:0.0} UUID: {8} RSSI: {9,3}dBm", id, rpm / 10.0, hr / 10.0, power, interval, kcal, clock, trip, getUuidString(), rssi);
+            return string.Format("ID: {0,3} RPM: {1,5:0.0} HR: {2,5:0.0} POWER: {3,4:} INT: {4,2} KCAL: {5,4:} CLOCK: {6,5:} TRIP: {7,4:0.0} RSSI: {8,3}dBm", id, rpm / 10.0, hr / 10.0, power, interval, kcal, clock, trip / 10.0, rssi);
         }
     }
 }

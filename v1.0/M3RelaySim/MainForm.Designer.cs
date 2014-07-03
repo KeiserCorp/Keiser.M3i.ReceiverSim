@@ -1,4 +1,4 @@
-﻿namespace M3RelaySim
+﻿namespace Keiser.M3i.ReceiverSimulator
 {
     partial class MainForm
     {
@@ -46,11 +46,10 @@
             this.ipAddressBox = new System.Windows.Forms.TextBox();
             this.ipAddressLabel = new System.Windows.Forms.Label();
             this.transAttPanel = new System.Windows.Forms.FlowLayoutPanel();
-            this.idLongCheckbox = new System.Windows.Forms.CheckBox();
-            this.rpmLongCheckbox = new System.Windows.Forms.CheckBox();
-            this.hrLongCheckbox = new System.Windows.Forms.CheckBox();
-            this.kcalSendCheckbox = new System.Windows.Forms.CheckBox();
-            this.clockSendCheckbox = new System.Windows.Forms.CheckBox();
+            this.uuidSendCheckbox = new System.Windows.Forms.CheckBox();
+            this.versionSendCheckbox = new System.Windows.Forms.CheckBox();
+            this.intervalSendCheckbox = new System.Windows.Forms.CheckBox();
+            this.imperialUnitsCheckbox = new System.Windows.Forms.CheckBox();
             this.rssiSendCheckbox = new System.Windows.Forms.CheckBox();
             this.randomIdCheckbox = new System.Windows.Forms.CheckBox();
             this.realWorldCheckBox = new System.Windows.Forms.CheckBox();
@@ -72,7 +71,7 @@
             this.statusBarSaveButton});
             this.statusBar.Location = new System.Drawing.Point(0, 356);
             this.statusBar.Name = "statusBar";
-            this.statusBar.Size = new System.Drawing.Size(805, 22);
+            this.statusBar.Size = new System.Drawing.Size(838, 22);
             this.statusBar.SizingGrip = false;
             this.statusBar.TabIndex = 0;
             this.statusBar.Text = "Status Bar";
@@ -103,7 +102,6 @@
             // 
             this.toolStripStatusLabel1.AutoSize = false;
             this.toolStripStatusLabel1.BackColor = System.Drawing.SystemColors.Control;
-            this.toolStripStatusLabel1.BackgroundImage = global::M3RelaySim.Properties.Resources.book_Open_16xLG;
             this.toolStripStatusLabel1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.toolStripStatusLabel1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
             this.toolStripStatusLabel1.Margin = new System.Windows.Forms.Padding(0, 3, 15, 2);
@@ -116,7 +114,6 @@
             // 
             this.statusBarClearButton.AutoSize = false;
             this.statusBarClearButton.BackColor = System.Drawing.SystemColors.Control;
-            this.statusBarClearButton.BackgroundImage = global::M3RelaySim.Properties.Resources.action_Cancel_16xLG;
             this.statusBarClearButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.statusBarClearButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
             this.statusBarClearButton.Margin = new System.Windows.Forms.Padding(2, 3, 2, 2);
@@ -129,7 +126,6 @@
             // 
             this.statusBarSaveButton.AutoSize = false;
             this.statusBarSaveButton.BackColor = System.Drawing.SystemColors.Control;
-            this.statusBarSaveButton.BackgroundImage = global::M3RelaySim.Properties.Resources.save_16xLG;
             this.statusBarSaveButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.statusBarSaveButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
             this.statusBarSaveButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
@@ -241,11 +237,10 @@
             // 
             // transAttPanel
             // 
-            this.transAttPanel.Controls.Add(this.idLongCheckbox);
-            this.transAttPanel.Controls.Add(this.rpmLongCheckbox);
-            this.transAttPanel.Controls.Add(this.hrLongCheckbox);
-            this.transAttPanel.Controls.Add(this.kcalSendCheckbox);
-            this.transAttPanel.Controls.Add(this.clockSendCheckbox);
+            this.transAttPanel.Controls.Add(this.uuidSendCheckbox);
+            this.transAttPanel.Controls.Add(this.versionSendCheckbox);
+            this.transAttPanel.Controls.Add(this.intervalSendCheckbox);
+            this.transAttPanel.Controls.Add(this.imperialUnitsCheckbox);
             this.transAttPanel.Controls.Add(this.rssiSendCheckbox);
             this.transAttPanel.Controls.Add(this.randomIdCheckbox);
             this.transAttPanel.Controls.Add(this.realWorldCheckBox);
@@ -254,72 +249,60 @@
             this.transAttPanel.Size = new System.Drawing.Size(110, 186);
             this.transAttPanel.TabIndex = 2;
             // 
-            // idLongCheckbox
+            // uuidSendCheckbox
             // 
-            this.idLongCheckbox.AutoSize = true;
-            this.idLongCheckbox.Checked = true;
-            this.idLongCheckbox.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.idLongCheckbox.Location = new System.Drawing.Point(3, 3);
-            this.idLongCheckbox.Name = "idLongCheckbox";
-            this.idLongCheckbox.Size = new System.Drawing.Size(64, 17);
-            this.idLongCheckbox.TabIndex = 0;
-            this.idLongCheckbox.Text = "ID Long";
-            this.idLongCheckbox.UseVisualStyleBackColor = true;
+            this.uuidSendCheckbox.AutoSize = true;
+            this.uuidSendCheckbox.Checked = true;
+            this.uuidSendCheckbox.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.uuidSendCheckbox.Location = new System.Drawing.Point(3, 3);
+            this.uuidSendCheckbox.Name = "uuidSendCheckbox";
+            this.uuidSendCheckbox.Size = new System.Drawing.Size(81, 17);
+            this.uuidSendCheckbox.TabIndex = 0;
+            this.uuidSendCheckbox.Text = "UUID Send";
+            this.uuidSendCheckbox.UseVisualStyleBackColor = true;
             // 
-            // rpmLongCheckbox
+            // versionSendCheckbox
             // 
-            this.rpmLongCheckbox.AutoSize = true;
-            this.rpmLongCheckbox.Checked = true;
-            this.rpmLongCheckbox.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.rpmLongCheckbox.Location = new System.Drawing.Point(3, 26);
-            this.rpmLongCheckbox.Name = "rpmLongCheckbox";
-            this.rpmLongCheckbox.Size = new System.Drawing.Size(77, 17);
-            this.rpmLongCheckbox.TabIndex = 1;
-            this.rpmLongCheckbox.Text = "RPM Long";
-            this.rpmLongCheckbox.UseVisualStyleBackColor = true;
+            this.versionSendCheckbox.AutoSize = true;
+            this.versionSendCheckbox.Checked = true;
+            this.versionSendCheckbox.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.versionSendCheckbox.Location = new System.Drawing.Point(3, 26);
+            this.versionSendCheckbox.Name = "versionSendCheckbox";
+            this.versionSendCheckbox.Size = new System.Drawing.Size(89, 17);
+            this.versionSendCheckbox.TabIndex = 1;
+            this.versionSendCheckbox.Text = "Version Send";
+            this.versionSendCheckbox.UseVisualStyleBackColor = true;
             // 
-            // hrLongCheckbox
+            // intervalSendCheckbox
             // 
-            this.hrLongCheckbox.AutoSize = true;
-            this.hrLongCheckbox.Checked = true;
-            this.hrLongCheckbox.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.hrLongCheckbox.Location = new System.Drawing.Point(3, 49);
-            this.hrLongCheckbox.Name = "hrLongCheckbox";
-            this.hrLongCheckbox.Size = new System.Drawing.Size(69, 17);
-            this.hrLongCheckbox.TabIndex = 2;
-            this.hrLongCheckbox.Text = "HR Long";
-            this.hrLongCheckbox.UseVisualStyleBackColor = true;
+            this.intervalSendCheckbox.AutoSize = true;
+            this.intervalSendCheckbox.Checked = true;
+            this.intervalSendCheckbox.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.intervalSendCheckbox.Location = new System.Drawing.Point(3, 49);
+            this.intervalSendCheckbox.Name = "intervalSendCheckbox";
+            this.intervalSendCheckbox.Size = new System.Drawing.Size(89, 17);
+            this.intervalSendCheckbox.TabIndex = 2;
+            this.intervalSendCheckbox.Text = "Interval Send";
+            this.intervalSendCheckbox.UseVisualStyleBackColor = true;
             // 
-            // kcalSendCheckbox
+            // imperialUnitsCheckbox
             // 
-            this.kcalSendCheckbox.AutoSize = true;
-            this.kcalSendCheckbox.Checked = true;
-            this.kcalSendCheckbox.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.kcalSendCheckbox.Location = new System.Drawing.Point(3, 72);
-            this.kcalSendCheckbox.Name = "kcalSendCheckbox";
-            this.kcalSendCheckbox.Size = new System.Drawing.Size(75, 17);
-            this.kcalSendCheckbox.TabIndex = 3;
-            this.kcalSendCheckbox.Text = "Kcal Send";
-            this.kcalSendCheckbox.UseVisualStyleBackColor = true;
-            // 
-            // clockSendCheckbox
-            // 
-            this.clockSendCheckbox.AutoSize = true;
-            this.clockSendCheckbox.Checked = true;
-            this.clockSendCheckbox.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.clockSendCheckbox.Location = new System.Drawing.Point(3, 95);
-            this.clockSendCheckbox.Name = "clockSendCheckbox";
-            this.clockSendCheckbox.Size = new System.Drawing.Size(81, 17);
-            this.clockSendCheckbox.TabIndex = 4;
-            this.clockSendCheckbox.Text = "Clock Send";
-            this.clockSendCheckbox.UseVisualStyleBackColor = true;
+            this.imperialUnitsCheckbox.AutoSize = true;
+            this.imperialUnitsCheckbox.Checked = true;
+            this.imperialUnitsCheckbox.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.imperialUnitsCheckbox.Location = new System.Drawing.Point(3, 72);
+            this.imperialUnitsCheckbox.Name = "imperialUnitsCheckbox";
+            this.imperialUnitsCheckbox.Size = new System.Drawing.Size(89, 17);
+            this.imperialUnitsCheckbox.TabIndex = 4;
+            this.imperialUnitsCheckbox.Text = "Imperial Units";
+            this.imperialUnitsCheckbox.UseVisualStyleBackColor = true;
             // 
             // rssiSendCheckbox
             // 
             this.rssiSendCheckbox.AutoSize = true;
             this.rssiSendCheckbox.Checked = true;
             this.rssiSendCheckbox.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.rssiSendCheckbox.Location = new System.Drawing.Point(3, 118);
+            this.rssiSendCheckbox.Location = new System.Drawing.Point(3, 95);
             this.rssiSendCheckbox.Name = "rssiSendCheckbox";
             this.rssiSendCheckbox.Size = new System.Drawing.Size(79, 17);
             this.rssiSendCheckbox.TabIndex = 5;
@@ -331,7 +314,7 @@
             this.randomIdCheckbox.AutoSize = true;
             this.randomIdCheckbox.Checked = true;
             this.randomIdCheckbox.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.randomIdCheckbox.Location = new System.Drawing.Point(3, 141);
+            this.randomIdCheckbox.Location = new System.Drawing.Point(3, 118);
             this.randomIdCheckbox.Name = "randomIdCheckbox";
             this.randomIdCheckbox.Size = new System.Drawing.Size(85, 17);
             this.randomIdCheckbox.TabIndex = 6;
@@ -343,7 +326,7 @@
             this.realWorldCheckBox.AutoSize = true;
             this.realWorldCheckBox.Checked = true;
             this.realWorldCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.realWorldCheckBox.Location = new System.Drawing.Point(3, 164);
+            this.realWorldCheckBox.Location = new System.Drawing.Point(3, 141);
             this.realWorldCheckBox.Name = "realWorldCheckBox";
             this.realWorldCheckBox.Size = new System.Drawing.Size(79, 17);
             this.realWorldCheckBox.TabIndex = 7;
@@ -360,7 +343,7 @@
             this.outputBox.Location = new System.Drawing.Point(123, 0);
             this.outputBox.Name = "outputBox";
             this.outputBox.ScrollAlwaysVisible = true;
-            this.outputBox.Size = new System.Drawing.Size(682, 356);
+            this.outputBox.Size = new System.Drawing.Size(715, 356);
             this.outputBox.TabIndex = 3;
             // 
             // MainForm
@@ -368,14 +351,14 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Window;
-            this.ClientSize = new System.Drawing.Size(805, 378);
+            this.ClientSize = new System.Drawing.Size(838, 378);
             this.Controls.Add(this.outputBox);
             this.Controls.Add(this.controlsContainerPanel);
             this.Controls.Add(this.statusBar);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "MainForm";
-            this.Text = "M3 Relay Sim";
+            this.Text = "M3i Receiver Simulator [v1.0]";
             this.Load += new System.EventHandler(this.MainForm_Load);
             this.statusBar.ResumeLayout(false);
             this.statusBar.PerformLayout();
@@ -398,11 +381,10 @@
         private System.Windows.Forms.Label numOfBikesLabel;
         private System.Windows.Forms.NumericUpDown numOfBikesNumeric;
         private System.Windows.Forms.FlowLayoutPanel transAttPanel;
-        private System.Windows.Forms.CheckBox idLongCheckbox;
-        private System.Windows.Forms.CheckBox rpmLongCheckbox;
-        private System.Windows.Forms.CheckBox hrLongCheckbox;
-        private System.Windows.Forms.CheckBox kcalSendCheckbox;
-        private System.Windows.Forms.CheckBox clockSendCheckbox;
+        private System.Windows.Forms.CheckBox uuidSendCheckbox;
+        private System.Windows.Forms.CheckBox versionSendCheckbox;
+        private System.Windows.Forms.CheckBox intervalSendCheckbox;
+        private System.Windows.Forms.CheckBox imperialUnitsCheckbox;
         private System.Windows.Forms.CheckBox rssiSendCheckbox;
         private System.Windows.Forms.ListBox outputBox;
         private System.Windows.Forms.Panel broadcastContainerPanel;
