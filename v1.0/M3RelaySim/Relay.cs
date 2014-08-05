@@ -73,6 +73,7 @@ namespace Keiser.M3i.ReceiverSimulator
         {
             bool emptyLog = true;
             List<byte> data = new List<byte>();
+            data.Add(0x0A);
             data.Add(getConfig());
             foreach (Rider rider in riders)
             {
@@ -131,6 +132,7 @@ namespace Keiser.M3i.ReceiverSimulator
 
             if (intervalSend)
             {
+                    add_1_byte(rider.interval, data);
                     add_2_byte(rider.kcal, data);
                     add_2_byte(rider.clock, data);
                     add_2_byte(rider.trip, data);

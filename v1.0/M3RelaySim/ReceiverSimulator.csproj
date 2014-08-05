@@ -14,7 +14,7 @@
     <IsWebBootstrapper>true</IsWebBootstrapper>
     <TargetFrameworkProfile>
     </TargetFrameworkProfile>
-    <PublishUrl>D:\Development\Keiser.MPM.M3RelaySim\Publish\</PublishUrl>
+    <PublishUrl>D:\Development\Keiser.M3i.ReceiverSim\v1.0\DeployBuilds\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Web</InstallFrom>
     <UpdateEnabled>true</UpdateEnabled>
@@ -24,14 +24,14 @@
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
-    <InstallUrl>http://manuals.keiser.com/downloads/m3relay/sim/</InstallUrl>
+    <InstallUrl>http://dev.keiser.com/files/applications/receiver-simulator/</InstallUrl>
     <ProductName>M3i Mutli-Bike Receiver Simulator</ProductName>
     <PublisherName>Keiser Corp</PublisherName>
     <SuiteName>M3i Developer Tools</SuiteName>
     <WebPage>publish.htm</WebPage>
     <OpenBrowserOnPublish>false</OpenBrowserOnPublish>
     <ApplicationRevision>2</ApplicationRevision>
-    <ApplicationVersion>1.1.0.2</ApplicationVersion>
+    <ApplicationVersion>1.2.0.2</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -63,10 +63,11 @@
     <ApplicationIcon>M3RelaySim.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>F4F80D01C0E791B7A3811C6D5796C6CA6E351451</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>437F5812AD8D6D0B13D2651008560446D9E4D938</ManifestCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestKeyFile>M3RelaySim_1_TemporaryKey.pfx</ManifestKeyFile>
+    <ManifestKeyFile>
+    </ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
     <GenerateManifests>true</GenerateManifests>
@@ -79,6 +80,18 @@
   </PropertyGroup>
   <PropertyGroup />
   <PropertyGroup />
+  <PropertyGroup>
+    <SignAssembly>false</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationManifest>Properties\app.manifest</ApplicationManifest>
+  </PropertyGroup>
+  <PropertyGroup>
+    <TargetZone>Internet</TargetZone>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>exportedSigner.pfx</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -115,6 +128,10 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <None Include="4ead6f2f7412e1.pfx" />
+    <None Include="assemblySigning.pfx" />
+    <None Include="exportedSigner.pfx" />
+    <None Include="Properties\app.manifest" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

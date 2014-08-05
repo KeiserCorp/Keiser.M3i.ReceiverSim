@@ -372,7 +372,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "MainForm";
-            this.Text = "Keiser M3i Receiver Simulator [v0.8]";
+            this.Text = "M3i Receiver Simulator [v0.8]";
             this.Load += new System.EventHandler(this.MainForm_Load);
             this.statusBar.ResumeLayout(false);
             this.statusBar.PerformLayout();
