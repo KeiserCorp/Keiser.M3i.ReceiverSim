@@ -11,7 +11,7 @@ namespace Keiser.M3i.ReceiverSimulator
 {
     class Relay
     {
-        private Thread _Thread;
+        private Thread _Thread, _DynThread;
         private volatile Boolean _KeepWorking;
         private Log _log;
         private Random random = new Random();
@@ -41,11 +41,29 @@ namespace Keiser.M3i.ReceiverSimulator
                 riders.Add(new Rider(random, x, randomId, realWorld));
             }
             _Thread.Start();
+            _DynThread = new Thread(dyn_worker);
+            _DynThread.Start();
         }
 
         public void stop()
         {
             _KeepWorking = running = false;
+        }
+
+        private void dyn_worker()
+        {
+            Stopwatch runTime;
+            Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
+            IPEndPoint ipEndPoint = new IPEndPoint(IPAddress.Parse("239.10.10.10"), 35679);
+            socket.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.Broadcast, 1);
+            while (_KeepWorking)
+            {
+                runTime = Stopwatch.StartNew();
+                dyn_broadcast(socket, ipEndPoint);
+                runTime.Stop();
+                Thread.Sleep(Convert.ToUInt16(30000 - runTime.ElapsedMilliseconds));
+            }
+            socket.Close();
         }
 
         private void worker()
@@ -92,6 +110,26 @@ namespace Keiser.M3i.ReceiverSimulator
                 socket.SendTo(data.ToArray(), ipEndPoint);
         }
 
+        private void dyn_broadcast(Socket socket, IPEndPoint ipEndPoint)
+        {
+            List<byte> data = new List<byte>();
+            push_string(data, "KEISER-RECEIVER");
+            push_string(data, "|NAME:Receiver Simulator");
+            push_string(data, "|API:10");
+            push_string(data, "|IP:" + ipAddress);
+            push_string(data, "|PORT:" + ipPort);
+            push_string(data, "|");
+            socket.SendTo(data.ToArray(), ipEndPoint);
+        }
+
+        private void push_string(List<byte> data, string str)
+        {
+            foreach (char c in str)
+            {
+                data.Add((byte)c);
+            }
+        }
+
         private byte getConfig()
         {
             byte configFlags = 0;
@@ -132,10 +170,10 @@ namespace Keiser.M3i.ReceiverSimulator
 
             if (intervalSend)
             {
-                    add_1_byte(rider.interval, data);
-                    add_2_byte(rider.kcal, data);
-                    add_2_byte(rider.clock, data);
-                    add_2_byte(rider.trip, data);
+                add_1_byte(rider.interval, data);
+                add_2_byte(rider.kcal, data);
+                add_2_byte(rider.clock, data);
+                add_2_byte(rider.trip, data);
             }
 
             if (rssiSend)
@@ -290,13 +328,13 @@ namespace Keiser.M3i.ReceiverSimulator
                 hr -= Convert.ToUInt16(random.Next(10, 30));
             }
             power = getPower();
-            if(inInterval)
+            if (inInterval)
             {
                 intCal += (power / 4.187) * 4 * refresh;
                 intKcal = Convert.ToUInt16(intCal / 1000);
                 intClock += Convert.ToUInt16(refresh);
-                intTripAct +=getPower() / 1000.0;
-                intTrip =  Convert.ToUInt16(intTripAct);
+                intTripAct += getPower() / 1000.0;
+                intTrip = Convert.ToUInt16(intTripAct);
             }
             else
             {
