@@ -157,6 +157,8 @@ namespace Keiser.M3i.ReceiverSimulator
             relay.rssiSend = this.rssiSendCheckbox.Checked;
             relay.imperialUnits = this.imperialUnitsCheckbox.Checked;
 
+            relay.gearSend = this.GearBox.Checked;
+
             relay.randomId = this.randomIdCheckbox.Checked;
             relay.realWorld = this.realWorldCheckBox.Checked;
 

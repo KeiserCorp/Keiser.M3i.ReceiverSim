@@ -22,7 +22,7 @@ namespace Keiser.M3i.ReceiverSimulator
         public bool running = false;
         public string ipAddress = "";
         public UInt16 ipPort;
-        public bool uuidSend, versionSend, intervalSend, rssiSend, imperialUnits, randomId, realWorld;
+        public bool uuidSend, versionSend, intervalSend, rssiSend, imperialUnits, randomId, realWorld, gearSend;
 
         public List<Rider> riders = new List<Rider>();
 
@@ -137,6 +137,7 @@ namespace Keiser.M3i.ReceiverSimulator
             if (versionSend) configFlags = Convert.ToByte(configFlags | 2);
             if (intervalSend) configFlags = Convert.ToByte(configFlags | 4);
             if (rssiSend) configFlags = Convert.ToByte(configFlags | 8);
+            if (gearSend) configFlags = Convert.ToByte(configFlags | 16);
             if (imperialUnits) configFlags = Convert.ToByte(configFlags | 128);
             return configFlags;
         }
@@ -177,7 +178,13 @@ namespace Keiser.M3i.ReceiverSimulator
             }
 
             if (rssiSend)
-                data.Add(Convert.ToByte(rider.rssi & 0xFF));
+                unchecked
+                {
+                    data.Add((byte) Convert.ToSByte(rider.rssi));
+                }
+
+            if (gearSend)
+                add_1_byte(rider.gear, data);
 
         }
 
@@ -197,7 +204,7 @@ namespace Keiser.M3i.ReceiverSimulator
     class Rider
     {
         public UInt16 cycles;
-        public UInt16 id, versionMajor, versionMinor, rpm, hr, power, interval, rkcal, rclock, rtrip;
+        public UInt16 id, versionMajor, versionMinor, rpm, hr, power, interval, rkcal, rclock, rtrip, gear;
         public Int16 rssi = -50;
         public byte[] uuid = new byte[6];
 
@@ -236,7 +243,7 @@ namespace Keiser.M3i.ReceiverSimulator
         private int intervalCounter;
         private bool inInterval = false;
         private UInt16 intKcal, intClock, intTrip;
-        private int age, maxHR, gear, refresh = 2;
+        private int age, maxHR, refresh = 2;
         private double rcal, intCal;
         private bool realWorld;
 
@@ -248,10 +255,10 @@ namespace Keiser.M3i.ReceiverSimulator
             maxHR = (2200 - (age * 10));
             id = Convert.ToUInt16(x + 1);
             versionMajor = 0x06;
-            versionMinor = 0x13;
+            versionMinor = 0x21;
             hr = Convert.ToUInt16(random.Next(Convert.ToUInt16(maxHR * 0.4), Convert.ToUInt16(maxHR * 0.9)));
             rpm = Convert.ToUInt16(1100 * hr / maxHR);
-            gear = random.Next(1, 24);
+            gear = Convert.ToUInt16(random.Next(1, 24));
             power = getPower();
             rcal = random.Next(0, 50000);
             interval = 0;
@@ -417,7 +424,7 @@ namespace Keiser.M3i.ReceiverSimulator
         public string getStats()
         {
             //return string.Format("ID: {0,3} RPM: {1,5:0.0} HR: {2,5:0.0} POWER: {3,4:} INT: {4:2} KCAL: {5,4:} CLOCK: {6,5:} TRIP: {7,4:0.0} UUID: {8} RSSI: {9,3}dBm", id, rpm / 10.0, hr / 10.0, power, interval, kcal, clock, trip, getUuidString(), rssi);
-            return string.Format("ID: {0,3} RPM: {1,5:0.0} HR: {2,5:0.0} POWER: {3,4:} INT: {4,2} KCAL: {5,4:} CLOCK: {6,5:} TRIP: {7,4:0.0} RSSI: {8,3}dBm", id, rpm / 10.0, hr / 10.0, power, interval, kcal, clock, trip / 10.0, rssi);
+            return string.Format("ID: {0,3} RPM: {1,4:0.0} HR: {2,4:0.0} POWER: {3,4:} INT: {4,2} KCAL: {5,3:} CLOCK: {6,4:} TRIP: {7,3:0.0} RSSI: {8,3}dBm GEAR: {9,2}", id, rpm / 10.0, hr / 10.0, power, interval, kcal, clock, trip / 10.0, rssi, gear);
         }
     }
 }

@@ -53,6 +53,7 @@
             this.rssiSendCheckbox = new System.Windows.Forms.CheckBox();
             this.randomIdCheckbox = new System.Windows.Forms.CheckBox();
             this.realWorldCheckBox = new System.Windows.Forms.CheckBox();
+            this.GearBox = new System.Windows.Forms.CheckBox();
             this.outputBox = new System.Windows.Forms.ListBox();
             this.statusBar.SuspendLayout();
             this.controlsContainerPanel.SuspendLayout();
@@ -71,7 +72,7 @@
             this.statusBarSaveButton});
             this.statusBar.Location = new System.Drawing.Point(0, 356);
             this.statusBar.Name = "statusBar";
-            this.statusBar.Size = new System.Drawing.Size(838, 22);
+            this.statusBar.Size = new System.Drawing.Size(868, 22);
             this.statusBar.SizingGrip = false;
             this.statusBar.TabIndex = 0;
             this.statusBar.Text = "Status Bar";
@@ -244,6 +245,7 @@
             this.transAttPanel.Controls.Add(this.rssiSendCheckbox);
             this.transAttPanel.Controls.Add(this.randomIdCheckbox);
             this.transAttPanel.Controls.Add(this.realWorldCheckBox);
+            this.transAttPanel.Controls.Add(this.GearBox);
             this.transAttPanel.Location = new System.Drawing.Point(7, 133);
             this.transAttPanel.Name = "transAttPanel";
             this.transAttPanel.Size = new System.Drawing.Size(110, 186);
@@ -333,6 +335,18 @@
             this.realWorldCheckBox.Text = "Real World";
             this.realWorldCheckBox.UseVisualStyleBackColor = true;
             // 
+            // GearBox
+            // 
+            this.GearBox.AutoSize = true;
+            this.GearBox.Checked = true;
+            this.GearBox.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.GearBox.Location = new System.Drawing.Point(3, 164);
+            this.GearBox.Name = "GearBox";
+            this.GearBox.Size = new System.Drawing.Size(77, 17);
+            this.GearBox.TabIndex = 8;
+            this.GearBox.Text = "Gear Send";
+            this.GearBox.UseVisualStyleBackColor = true;
+            // 
             // outputBox
             // 
             this.outputBox.BackColor = System.Drawing.SystemColors.Menu;
@@ -343,7 +357,7 @@
             this.outputBox.Location = new System.Drawing.Point(123, 0);
             this.outputBox.Name = "outputBox";
             this.outputBox.ScrollAlwaysVisible = true;
-            this.outputBox.Size = new System.Drawing.Size(715, 356);
+            this.outputBox.Size = new System.Drawing.Size(745, 356);
             this.outputBox.TabIndex = 3;
             // 
             // MainForm
@@ -351,7 +365,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Window;
-            this.ClientSize = new System.Drawing.Size(838, 378);
+            this.ClientSize = new System.Drawing.Size(868, 378);
             this.Controls.Add(this.outputBox);
             this.Controls.Add(this.controlsContainerPanel);
             this.Controls.Add(this.statusBar);
@@ -399,6 +413,7 @@
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
         private System.Windows.Forms.CheckBox randomIdCheckbox;
         private System.Windows.Forms.CheckBox realWorldCheckBox;
+        private System.Windows.Forms.CheckBox GearBox;
 
     }
 }
