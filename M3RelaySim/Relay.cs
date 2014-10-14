@@ -91,7 +91,8 @@ namespace Keiser.M3i.ReceiverSimulator
         {
             bool emptyLog = true;
             List<byte> data = new List<byte>();
-            data.Add(0x0A);
+            byte API = Convert.ToByte((gearSend) ? 0x0B : 0x0A);
+            data.Add(API);
             data.Add(getConfig());
             foreach (Rider rider in riders)
             {
@@ -112,10 +113,11 @@ namespace Keiser.M3i.ReceiverSimulator
 
         private void dyn_broadcast(Socket socket, IPEndPoint ipEndPoint)
         {
+            string API = (gearSend) ? "11" : "10";
             List<byte> data = new List<byte>();
             push_string(data, "KEISER-RECEIVER");
             push_string(data, "|NAME:Receiver Simulator");
-            push_string(data, "|API:10");
+            push_string(data, "|API:" + API);
             push_string(data, "|IP:" + ipAddress);
             push_string(data, "|PORT:" + ipPort);
             push_string(data, "|");
@@ -180,7 +182,7 @@ namespace Keiser.M3i.ReceiverSimulator
             if (rssiSend)
                 unchecked
                 {
-                    data.Add((byte) Convert.ToSByte(rider.rssi));
+                    data.Add((byte)Convert.ToSByte(rider.rssi));
                 }
 
             if (gearSend)
